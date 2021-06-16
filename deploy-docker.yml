@@ -1,29 +1,9 @@
 ---
 - hosts: localhost
-  become: True
   tasks:
-    - name: Install python pip
-      yum:
-        name: python-pip
-        state: present
-    - name: Install docker
-      yum:
-        name: docker
-        state: present
-    - name: start docker
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: start nginx
       service:
-        name: docker
-        state: started
-        enabled: yes
-    - name: start docker
-      service:
-        name: docker
-        state: started
-        enabled: yes
-    - name: Start the container
-      docker_container:
-        name: hariapp
-        image: "uppu1808/samplerepo:{{DOCKER_TAG}}"
-        state: started
-        published_ports:
-          - 0.0.0.0:8083:8083
+          name: nginx
+          state: started
